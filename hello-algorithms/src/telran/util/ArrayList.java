@@ -36,7 +36,7 @@ int currentInd = 0;
 			array = Arrays.copyOf(array, size * 2);
 		}
 		array[size++] = obj;
-		return false;
+		return true;
 	}
 
 	@Override
@@ -50,19 +50,7 @@ int currentInd = 0;
 	    return res;
 	}
 
-	@Override
-	public boolean removeIf(Predicate<T> predicate) {
-		int sizeOld = size;
-		int i = 0;
-		while(i < size) {
-			if(predicate.test(array[i])) {
-				removeByIndex(i);
-			} else {
-				i++;
-			}
-		}
-		return sizeOld > size;
-	}
+
 
 	private void removeByIndex(int index) {
 		size--;
