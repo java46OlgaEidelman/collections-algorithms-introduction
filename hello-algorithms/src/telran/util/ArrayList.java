@@ -17,6 +17,7 @@ public ArrayList() {
 }
 private class ArrayListIterator<T> implements Iterator<T> {
 int currentInd = 0;
+boolean flNext = false;
 	@Override
 	public boolean hasNext() {
 		
@@ -25,8 +26,16 @@ int currentInd = 0;
 
 	@Override
 	public T next() {
-		
+		flNext = true;
 		return (T) array[currentInd++];
+	}
+	@Override
+	public void remove() {
+		if(!flNext) {
+			throw new IllegalStateException();
+		}
+		ArrayList.this.remove(--currentInd);
+		flNext = false;
 	}
 	
 }
@@ -55,6 +64,7 @@ int currentInd = 0;
 	private void removeByIndex(int index) {
 		size--;
 		System.arraycopy(array, index+1, array, index, size - index);
+		array[size] = null;
 		
 	}
 	@Override
@@ -77,8 +87,17 @@ int currentInd = 0;
 
 	@Override
 	public boolean add(int index, T obj) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean res = false;
+		if (index >= 0 && index <= size) {
+			res = true;
+			if (size == array.length) {
+				array = Arrays.copyOf(array, size * 2);
+			}
+			System.arraycopy(array, index, array, index + 1, size - index);
+			array[index] = obj;
+			size++;
+		}
+		return res;
 	}
 
 	@Override
@@ -93,7 +112,7 @@ int currentInd = 0;
 
 	private boolean checkExistingIndex(int index) {
 		
-		return false;
+		return index >= 0 && index < size;
 	}
 	@Override
 	public int indexOf(Object pattern) {
@@ -123,5 +142,32 @@ int currentInd = 0;
 	public T get(int index) {
 		return checkExistingIndex(index) ? array[index] : null;
 	}
-
+	@Override
+	public boolean removeIf (Predicate<T> predicate) {
+	boolean res = false;
+	int indDestination = 0;
+	int sizeAfterDeletion = size;
+	for(int indSource = 0; indSource < size; indSource++) {
+		if(predicate.test(array[indSource])) {
+			sizeAfterDeletion--;
+		} else {
+			array[indDestination++] = array[indSource];
+		}
+	}
+	res = afterDeletionProcessing(sizeAfterDeletion);
+			
+		
+		return res;
+	}
+	private boolean afterDeletionProcessing(int sizeAfterDeletion) {
+		boolean res = false;
+		if (sizeAfterDeletion < size) {
+			res = true;
+			for (int i = sizeAfterDeletion; i < size; i++) {
+				array[i] = null;
+			}
+			size = sizeAfterDeletion;
+		}
+		return res;
+	}
 }

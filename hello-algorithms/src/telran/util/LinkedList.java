@@ -19,6 +19,7 @@ private int size;
 
 private class LinkedListIterator implements Iterator<T> {
     Node<T> current = head;
+    boolean flNext = false;
 	@Override
 	public boolean hasNext() {
 		
@@ -34,6 +35,19 @@ private class LinkedListIterator implements Iterator<T> {
 		current = current.next;
 		return res;
 	}
+	@Override
+	public void remove() {
+		if(!flNext) {
+			throw new IllegalAccessError();	
+		}
+	if(current == null) {
+			removeNode(tail);
+		}else {
+			removeNode(current.prev);	
+		}
+		
+	}
+	
 	
 }
 
@@ -230,5 +244,18 @@ private class LinkedListIterator implements Iterator<T> {
 		
 		return index >= 0 && index < size;
 	}
+	public void reverse() {
+		//TODO write implementation
+		//TODO write test (Think where there should be test for the method reverse)
+		int limit = size / 2 ;
+		Node<T> forwardCurrent = head;
+		Node<T> backwardCurrent = tail;
+		for (int i = 0; i < limit; i++, forwardCurrent = forwardCurrent.next,
+				backwardCurrent = backwardCurrent.prev) {
+			T tmp = forwardCurrent.obj;
+			forwardCurrent.obj = backwardCurrent.obj;
+			backwardCurrent.obj = tmp;
 
+		}
+	}
 }

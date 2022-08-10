@@ -30,7 +30,7 @@ public interface Collection<T> extends Iterable<T> {
 			while(it.hasNext()) {
 				T obj = it.next();
 				if(predicate.test(obj)) {
-					remove(obj);
+					it.remove();
 				}
 			}
 			return sizeOld > size();
