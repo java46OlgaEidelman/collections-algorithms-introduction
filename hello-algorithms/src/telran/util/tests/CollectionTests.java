@@ -16,10 +16,11 @@ abstract class CollectionTests {
 	protected static final int N_NUMBERS = 10000;
 	protected static final int N_RANDOM_NUMBERS = 100;
 	private static final int N_RUNS = 10000;
-	private static final int N_RANDOM_RUNS = 0;
+	private static final int N_RANDOM_RUNS = 10;
 	protected Collection<Integer> collection;
 	protected abstract Collection<Integer> createCollection();
 	Integer expected[]= {10, -5, 13, 20, 40, 15};
+	
 		@BeforeEach
 		void setUp() throws Exception {
 			collection = createCollection();
@@ -81,7 +82,7 @@ private void fillRandomCollection() {
 @Test
 void containsTest() {
 	assertTrue(collection.contains(10));
-	assertFalse(collection.contains(1000));
+    assertFalse(collection.contains(1000));
 }
 @Test
 void sizeTest() {
@@ -104,19 +105,9 @@ void wrongIteratorRemoveTest() {
 	Iterator<Integer> it = collection.iterator();
 	wrongRemove(it);
 	it.next();
+	it.next();
 	it.remove();
 	wrongRemove(it);
-	
-}
-protected void wrongRemove(Iterator<Integer> it) {
-	boolean flException = false;
-	try {
-		it.remove();
-	} catch (IllegalStateException e) {
-		flException = true;
-	}
-	assertTrue(flException);
-	
 	
 }
 @Test
@@ -133,4 +124,18 @@ private void fillLargeCollection() {
 	}
 
 }
+
+protected void wrongRemove(Iterator<Integer> it) {
+	boolean flException = false;
+	try {
+		it.remove();
+	} catch (IllegalStateException e) {
+		flException = true;
+	}
+	assertTrue(flException);
+	
+	
+}
+
+
 }
