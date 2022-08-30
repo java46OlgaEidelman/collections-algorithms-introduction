@@ -245,17 +245,30 @@ private class LinkedListIterator implements Iterator<T> {
 		return index >= 0 && index < size;
 	}
 	public void reverse() {
-		//TODO write implementation
-		//TODO write test (Think where there should be test for the method reverse)
-		int limit = size / 2 ;
-		Node<T> forwardCurrent = head;
-		Node<T> backwardCurrent = tail;
-		for (int i = 0; i < limit; i++, forwardCurrent = forwardCurrent.next,
-				backwardCurrent = backwardCurrent.prev) {
-			T tmp = forwardCurrent.obj;
-			forwardCurrent.obj = backwardCurrent.obj;
-			backwardCurrent.obj = tmp;
+	
 
-		}
+		//TODO
+		//no cycles allowed
+
+		// TODO
+		// no cycles allowed
+		if (head != null) {
+		    reverse(head, tail);
+				}
 	}
+
+		private void reverse(Node<T> left, Node<T> right) {
+				if (left != right && left.prev != right) {
+					swap(left, right);
+					reverse(left.next, right.prev);
+				}
+
 }
+
+		private void swap(Node<T> left, Node<T> right) {
+				T tmp = left.obj;
+				left.obj = right.obj;
+				right.obj = tmp;
+			}
+				
+			}

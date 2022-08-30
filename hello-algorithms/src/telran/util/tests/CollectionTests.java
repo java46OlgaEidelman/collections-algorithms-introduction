@@ -118,8 +118,8 @@ void removeIfPerformanceTest() {
 	}
 }
 private void fillLargeCollection() {
-	for(int i = 0; i < N_NUMBERS; i++) {
-		collection.add(i);
+	for (int i = 0; i < N_NUMBERS; i++) {
+		collection.add((int)(Math.random()*Integer.MAX_VALUE));
 	}
 
 }
@@ -133,7 +133,11 @@ protected void wrongRemove(Iterator<Integer> it) {
 	}
 	assertTrue(flException);
 	
-	
+}
+@Test
+void emptyCollectionTest() {
+	collection = createCollection();
+	assertArrayEquals(new Integer[0], collection.toArray(new Integer[0]));
 }
 
 
